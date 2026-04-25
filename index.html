@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EksponenPedia - Media Pembelajaran Matematika</title>
+    <style>
+        /* CSS Variabel untuk Warna dan Styling */
+        :root {
+            --navy: #0A2540;
+            --navy-light: #1E3A8A;
+            --light-blue: #E0F2FE;
+            --blue-hover: #BAE6FD;
+            --yellow: #FBBF24;
+            --yellow-hover: #F59E0B;
+            --pink: #FDF2F8;
+            --pink-dark: #EC4899;
+            --white: #FFFFFF;
+            --gray-100: #F3F4F6;
+            --gray-500: #6B7280;
+            --gray-800: #1F2937;
+            --green: #10B981;
+            --red: #EF4444;
+            
+            --font-main: 'Segoe UI', 'Nunito', 'Comic Sans MS', sans-serif;
+            --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+        }
+
+        /* Reset & Base Styles */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-main);
+            background-color: var(--gray-100);
+            color: var(--gray-800);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        h1, h2, h3 { color: var(--navy); margin-bottom: 0.5rem; }
+        p { margin-bottom: 1rem; }
+        button {
+            font-family: inherit; cursor: pointer; border: none; outline: none;
+            transition: all 0.2s ease; border-radius: var(--radius-md); font-weight: bold;
+            min-height: 48px; /* Accessible touch target */
+            padding: 10px 20px;
+        }
+        button:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+        img, svg { max-width: 100%; display: block; }
+        
+        /* Utility Classes */
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-2 { gap: 0.5rem; } .gap-4 { gap: 1rem; } .gap-6 { gap: 1.5rem; }
+        .p-4 { padding: 1rem; } .p-6 { padding: 1.5rem; } .p-8 { padding: 2rem; }
+        
+        /* Top Navigation (Sticky) */
+        header {
+            position: sticky; top: 0; z-index: 100;
+            background-color: var(--navy); color: var(--white);
+            box-shadow: var(--shadow-soft);
+        }
+        .nav-container {
+            max-width: 1200px; margin: 0 auto; padding: 1rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--yellow); display: flex; align-items: center; gap: 8px;}
+        
+        .nav-links { display: flex; gap: 1rem; }
+        .nav-link {
+            color: var(--white); background: none; min-height: unset; padding: 8px 12px;
+            font-size: 1rem; border-radius: 8px; font-weight: normal;
+        }
+        .nav-link:hover, .nav-link.active { background-color: var(--navy-light); color: var(--yellow); }
+        
+        .nav-tools { display: flex; gap: 0.5rem; }
+        .icon-btn {
+            background: rgba(255,255,255,0.1); color: var(--white);
+            width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0;
+        }
+        .icon-btn:hover { background: rgba(255,255,255,0.2); color: var(--yellow); }
+        .hamburger { display: none; background: none; color: white; font-size: 1.5rem; }
+
+        /* Progress Bar Global */
+        .progress-container { width: 100%; background: var(--navy-light); height: 6px; }
+        .progress-bar { height: 100%; background: var(--yellow); width: 0%; transition: width 0.5s ease; }
+
+        /* Main Container */
+        main { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; min-height: 80vh; }
+        section { display: none; animation: fadeIn 0.4s ease; }
+        section.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Cards */
+        .card {
+            background: var(--white); border-radius: var(--radius-lg);
+            padding: 1.5rem; box-shadow: var(--shadow-card);
+            border: 2px solid transparent;
+        }
+
+        /* Buttons */
+        .btn-primary { background-color: var(--navy); color: var(--white); }
+        .btn-primary:hover { background-color: var(--navy-light); }
+        .btn-accent { background-color: var(--yellow); color: var(--navy); }
+        .btn-accent:hover { background-color: var(--yellow-hover); }
+        .btn-outline { background-color: transparent; border: 2px solid var(--navy); color: var(--navy); }
+        .btn-outline:hover { background-color: var(--light-blue); }
+
+        /* --- SECTIONS STYLING --- */
+
+        /* 1. Beranda */
+        .hero {
+            background-color: var(--pink); border-radius: var(--radius-lg);
+            padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center;
+            text-align: center; margin-bottom: 2rem; border: 2px solid var(--pink-dark);
+        }
+        .hero h1 { color: var(--pink-dark); font-size: 2.5rem; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+        .badge {
+            background: var(--light-blue); padding: 1rem; border-radius: 50%;
+            width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; margin: 0 auto 1rem auto; border: 4px solid var(--navy);
+            opacity: 0.3; filter: grayscale(1); transition: all 0.5s;
+        }
+        .badge.unlocked { opacity: 1; filter: grayscale(0); border-color: var(--yellow); }
+
+        /* 2. Materi */
+        .materi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .flashcard-wrapper { perspective: 1000px; width: 100%; height: 250px; margin-bottom: 1rem; }
+        .flashcard {
+            width: 100%; height: 100%; position: relative;
+            transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer;
+        }
+        .flashcard.is-flipped { transform: rotateY(180deg); }
+        .fc-face {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-radius: var(--radius-lg); padding: 2rem; text-align: center;
+            box-shadow: var(--shadow-card);
+        }
+        .fc-front { background: var(--light-blue); color: var(--navy); border: 2px solid var(--navy); }
+        .fc-back { background: var(--navy); color: var(--white); transform: rotateY(180deg); }
+        
+        .sim-container { background: var(--white); padding: 1rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-card); }
+        #graphCanvas { width: 100%; max-width: 400px; height: 300px; background: #fafafa; border: 1px solid #ccc; border-radius: 8px; margin: 0 auto; display: block; }
+        .slider-container { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; }
+        input[type="range"] { flex: 1; height: 8px; border-radius: 4px; outline: none; }
+
+        /* 3. Contoh Soal */
+        .contoh-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .contoh-card { background: var(--light-blue); padding: 1.5rem; border-radius: var(--radius-lg); }
+        .contoh-graph { width: 100%; height: 200px; background: white; border-radius: 8px; margin-top: 1rem; display: flex; align-items: center; justify-content: center; font-weight: bold;}
+
+        /* 4. Latihan */
+        .latihan-box { max-width: 800px; margin: 0 auto; }
+        .soal-container { margin-bottom: 2rem; padding: 1.5rem; border: 2px solid var(--navy-light); border-radius: var(--radius-lg); background: white; }
+        .tf-btns { display: flex; gap: 1rem; margin-top: 1rem; }
+        .tf-btn { flex: 1; font-size: 1.2rem; }
+        
+        /* Drag & Drop Styles */
+        .dnd-container { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem;}
+        .draggable-items { display: flex; flex-direction: column; gap: 1rem; flex: 1; }
+        .draggable {
+            background: var(--yellow); padding: 10px; border-radius: 8px; cursor: grab;
+            text-align: center; font-weight: bold; user-select: none; border: 2px solid var(--yellow-hover);
+        }
+        .draggable.dragging { opacity: 0.5; }
+        .dropzone-container { flex: 2; position: relative; background: var(--light-blue); border-radius: 12px; padding: 1rem; min-height: 200px;}
+        .dropzone {
+            width: 120px; height: 50px; background: rgba(255,255,255,0.8); border: 2px dashed var(--navy);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            position: absolute; text-align: center; font-size: 0.9rem; font-weight: bold; color: var(--gray-500);
+        }
+        .dropzone.dragover { background: var(--blue-hover); border-style: solid; }
+        .dropzone.filled { background: var(--green); color: white; border-color: var(--green); border-style: solid;}
+
+        /* Matching Styles */
+        .match-container { display: flex; justify-content: space-between; gap: 2rem; margin-top: 1rem; }
+        .match-col { display: flex; flex-direction: column; gap: 1rem; flex: 1; }
+        .match-item {
+            padding: 1rem; background: var(--white); border: 2px solid var(--navy-light);
+            border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;
+        }
+        .match-item.selected { background: var(--yellow); border-color: var(--yellow-hover); }
+        .match-item.matched { background: var(--green); color: white; border-color: var(--green); cursor: default; }
+        
+        .feedback-msg { font-weight: bold; margin-top: 1rem; padding: 1rem; border-radius: 8px; display: none; }
+        .feedback-msg.correct { display: block; background: #D1FAE5; color: #065F46; border: 1px solid #10B981; }
+        .feedback-msg.wrong { display: block; background: #FEE2E2; color: #991B1B; border: 1px solid #EF4444; }
+
+        .certificate { display: none; background: var(--navy); color: white; padding: 3rem 2rem; text-align: center; border-radius: var(--radius-lg); margin-top: 2rem; }
+        .certificate.show { display: block; animation: fadeIn 1s; }
+
+        /* 5. Refleksi */
+        .emoji-group { display: flex; justify-content: center; gap: 2rem; margin: 2rem 0; }
+        .emoji-btn { font-size: 3rem; background: none; border: none; filter: grayscale(1); transition: 0.3s; padding: 0;}
+        .emoji-btn:hover, .emoji-btn.active { filter: grayscale(0); transform: scale(1.2); }
+        textarea { width: 100%; padding: 1rem; border-radius: var(--radius-md); border: 2px solid var(--gray-500); font-family: inherit; margin-top: 1rem; resize: vertical; min-height: 100px;}
+
+        /* 6. Pengembang */
+        .dev-profile { text-align: center; }
+        .avatar { width: 150px; height: 150px; background: var(--pink-dark); border-radius: 50%; margin: 0 auto 1rem auto; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; font-weight: bold; border: 4px solid var(--pink); }
+
+        /* Footer */
+        footer { text-align: center; padding: 2rem; background: var(--navy); color: var(--white); margin-top: 2rem; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; flex-direction: column; position: absolute;
+                top: 100%; left: 0; width: 100%; background: var(--navy);
+                padding: 1rem; box-shadow: var(--shadow-card);
+            }
+            .nav-links.show { display: flex; }
+            .hamburger { display: block; }
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .materi-grid { grid-template-columns: 1fr; }
+            .dnd-container, .match-container { flex-direction: column; }
+            .dropzone-container { min-height: 300px; }
+            .hero h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BGM Audio Object (Generated via JS to stay single file) -->
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19h16M4 15l4-4c2 0 3 4 5 4s3-4 5-4l2 2"/></svg>
+                EksponenPedia
+            </div>
+            <button class="hamburger" id="btnHamburger" aria-label="Toggle menu">☰</button>
+            <nav class="nav-links" id="navLinks">
+                <button class="nav-link active" onclick="navigate('beranda')">Beranda</button>
+                <button class="nav-link" onclick="navigate('materi')">Materi</button>
+                <button class="nav-link" onclick="navigate('contoh')">Contoh Soal</button>
+                <button class="nav-link" onclick="navigate('latihan')">Latihan</button>
+                <button class="nav-link" onclick="navigate('refleksi')">Refleksi</button>
+                <button class="nav-link" onclick="navigate('pengembang')">Pengembang</button>
+            </nav>
+            <div class="nav-tools">
+                <button class="icon-btn" id="btnAudio" onclick="toggleBGM()" title="Mute/Unmute Musik" aria-label="Audio Toggle">
+                    🔊
+                </button>
+                <button class="icon-btn" onclick="toggleFullScreen()" title="Full Screen" aria-label="Fullscreen Toggle">
+                    ⛶
+                </button>
+            </div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="topProgressBar"></div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. BERANDA -->
+        <section id="beranda" class="active">
+            <div class="hero">
+                <h1>Belajar Grafik Eksponensial</h1>
+                <p style="font-size: 1.2rem; max-width: 600px; margin: 1rem auto;">Mari jelajahi dunia grafik melengkung yang seru! Pahami sifat-sifatnya dan raih lencanamu hari ini.</p>
+                <button class="btn-accent" style="font-size: 1.2rem; padding: 15px 30px;" onclick="navigate('materi'); playClickSound();">Mulai Belajar 🚀</button>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h2>Dashboard Kemajuanmu</h2>
+                    <p>Selesaikan semua materi dan latihan untuk mencapai 100%!</p>
+                    <div style="background: var(--gray-100); height: 20px; border-radius: 10px; margin-top: 1rem; overflow: hidden;">
+                        <div id="dashboardProgress" style="height: 100%; background: var(--green); width: 0%; transition: width 1s;"></div>
+                    </div>
+                    <p id="progressText" class="text-center" style="margin-top: 0.5rem; font-weight: bold;">0% Selesai</p>
+                </div>
+                <div class="card text-center">
+                    <h2>Pencapaian</h2>
+                    <div class="badge" id="badgeEksponen" title="Selesaikan Latihan untuk membuka lencana ini!">⭐</div>
+                    <p id="badgeText">Lencana Ahli Eksponen (Terkunci)</p>
+                </div>
+            </div>
+
+            <h2>Kenali Bentuknya</h2>
+            <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <div class="card flex items-center justify-between">
+                    <div>
+                        <h3>Grafik Naik</h3>
+                        <p>Contoh: y = 2<sup>x</sup></p>
+                    </div>
+                    <svg width="60" height="60" viewBox="0 0 100 100" stroke="var(--pink-dark)" stroke-width="4" fill="none"><path d="M10 90 Q 50 80, 90 10"/></svg>
+                </div>
+                <div class="card flex items-center justify-between">
+                    <div>
+                        <h3>Grafik Turun</h3>
+                        <p>Contoh: y = (½)<sup>x</sup></p>
+                    </div>
+                    <svg width="60" height="60" viewBox="0 0 100 100" stroke="var(--navy)" stroke-width="4" fill="none"><path d="M10 10 Q 50 80, 90 90"/></svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. MATERI -->
+        <section id="materi">
+            <h1 class="text-center">Materi: Fungsi Eksponensial</h1>
+            <p class="text-center">Pahami konsep dasar grafik fungsi eksponensial di bawah ini.</p>
+
+            <div class="materi-grid">
+                <!-- Kiri: Penjelasan & Audio -->
+                <div class="flex-col gap-4">
+                    <div class="card">
+                        <div class="flex justify-between items-center">
+                            <h2>1. Bentuk Umum</h2>
+                            <button class="btn-accent" onclick="bacaMateri()" title="Dengarkan Materi" aria-label="Dengarkan Audio">🎧 Dengarkan</button>
+                        </div>
+                        <p id="teksMateri1">Fungsi eksponensial memiliki bentuk umum <b>f(x) = k · a<sup>x</sup></b>.</p>
+                        <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                            <li><b>x</b> adalah variabel bebas (pangkat).</li>
+                            <li><b>a</b> adalah bilangan pokok (basis), dengan syarat <b>a > 0</b> dan <b>a ≠ 1</b>.</li>
+                            <li><b>k</b> adalah konstanta.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h2>2. Langkah Menggambar</h2>
+                        <ol style="margin-left: 1.5rem;">
+                            <li>Buat tabel titik koordinat (x, y) dengan memasukkan beberapa nilai x.</li>
+                            <li>Gambarkan titik-titik tersebut pada bidang Cartesius.</li>
+                            <li>Hubungkan titik-titik tersebut dengan kurva yang mulus.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Kanan: Flashcard Interaktif -->
+                <div class="card" style="background: var(--navy); color: white;">
+                    <h2 style="color: var(--yellow);">3. Unsur & Sifat (Flashcard)</h2>
+                    <p>Klik kartu untuk membalik, tekan Next untuk melihat sifat lainnya.</p>
+                    
+                    <div class="flashcard-wrapper" onclick="flipCard()">
+                        <div class="flashcard" id="materiFlashcard">
+                            <div class="fc-face fc-front">
+                                <h3 id="fcFront" style="color:var(--navy);">Sifat 1</h3>
+                                <p>(Klik untuk melihat penjelasan)</p>
+                            </div>
+                            <div class="fc-face fc-back">
+                                <h3 id="fcBack" style="color:var(--yellow); font-size:1.2rem;">Grafik selalu berada di atas sumbu X (Definit Positif).</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between" style="margin-top: 1rem;">
+                        <button class="btn-outline" style="border-color:white; color:white;" onclick="prevCard()">◄ Prev</button>
+                        <span id="fcCounter">1 / 4</span>
+                        <button class="btn-outline" style="border-color:white; color:white;" onclick="nextCard()">Next ►</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulasi Interaktif -->
+            <div class="sim-container" style="margin-top: 2rem;">
+                <h2 class="text-center">Mode Eksplorasi: Simulasi Grafik y = a<sup>x</sup></h2>
+                <p class="text-center">Geser slider untuk mengubah nilai basis (a) dan amati perubahan grafiknya!</p>
+                <canvas id="graphCanvas"></canvas>
+                <div class="slider-container">
+                    <label for="basisSlider" style="font-weight:bold;">Nilai a = <span id="basisValue">2</span></label>
+                    <input type="range" id="basisSlider" min="0.1" max="5" step="0.1" value="2" oninput="updateSimulasi()">
+                </div>
+                <div class="flex gap-4 justify-center" style="margin-top:1rem;">
+                    <span class="badge" style="width:auto; height:auto; padding:5px 15px; border-radius:20px; font-size:1rem; opacity:1; filter:none; background:var(--pink); color:var(--pink-dark); border:none;">Kurva Merah: y = a<sup>x</sup></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. CONTOH SOAL -->
+        <section id="contoh">
+            <h1 class="text-center">Contoh Soal Menggambar Grafik</h1>
+            <p class="text-center">Perhatikan bagaimana bentuk fungsi mempengaruhi gambar grafiknya.</p>
+            
+            <div class="contoh-grid">
+                <div class="contoh-card">
+                    <h3>1. f(x) = 2<sup>x</sup></h3>
+                    <p>Karena a = 2 (a > 1), maka grafiknya <b>monoton naik</b>.</p>
+                    <div class="contoh-graph" style="position:relative;">
+                        <svg viewBox="0 0 200 100" width="100%" height="100%">
+                            <!-- Axes -->
+                            <line x1="100" y1="0" x2="100" y2="100" stroke="#ccc" />
+                            <line x1="0" y1="80" x2="200" y2="80" stroke="#ccc" />
+                            <!-- Curve -->
+                            <path d="M 0 78 Q 80 75, 100 60 T 150 10" fill="none" stroke="var(--navy)" stroke-width="3" />
+                            <circle cx="100" cy="60" r="4" fill="var(--red)"/>
+                            <text x="110" y="65" font-size="10">(0,1)</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="contoh-card">
+                    <h3>2. f(x) = 3<sup>x</sup></h3>
+                    <p>Lebih curam naiknya dibandingkan 2<sup>x</sup>, tetap melalui (0,1).</p>
+                    <div class="contoh-graph">
+                         <svg viewBox="0 0 200 100" width="100%" height="100%">
+                            <line x1="100" y1="0" x2="100" y2="100" stroke="#ccc" />
+                            <line x1="0" y1="80" x2="200" y2="80" stroke="#ccc" />
+                            <path d="M 0 79 Q 90 77, 100 60 T 130 5" fill="none" stroke="var(--pink-dark)" stroke-width="3" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="contoh-card">
+                    <h3>3. f(x) = (½)<sup>x</sup></h3>
+                    <p>Karena a = ½ (0 < a < 1), maka grafiknya <b>monoton turun</b>.</p>
+                    <div class="contoh-graph">
+                         <svg viewBox="0 0 200 100" width="100%" height="100%">
+                            <line x1="100" y1="0" x2="100" y2="100" stroke="#ccc" />
+                            <line x1="0" y1="80" x2="200" y2="80" stroke="#ccc" />
+                            <path d="M 50 10 Q 100 60, 100 60 T 200 78" fill="none" stroke="var(--green)" stroke-width="3" />
+                             <circle cx="100" cy="60" r="4" fill="var(--red)"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="contoh-card">
+                    <h3>4. f(x) = 2<sup>x</sup> + 1</h3>
+                    <p>Grafik f(x)=2<sup>x</sup> digeser ke atas sejauh 1 satuan. Asimtot datar y=1.</p>
+                    <div class="contoh-graph">
+                         <svg viewBox="0 0 200 100" width="100%" height="100%">
+                            <line x1="100" y1="0" x2="100" y2="100" stroke="#ccc" />
+                            <line x1="0" y1="80" x2="200" y2="80" stroke="#ccc" />
+                            <line x1="0" y1="60" x2="200" y2="60" stroke="#FBBF24" stroke-dasharray="4" /> <!-- y=1 asimtot -->
+                            <path d="M 0 58 Q 80 55, 100 40 T 150 -10" fill="none" stroke="var(--navy)" stroke-width="3" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. LATIHAN -->
+        <section id="latihan">
+            <h1 class="text-center">Area Latihan</h1>
+            <p class="text-center">Ayo uji pemahamanmu. Kumpulkan skor tertinggi!</p>
+            <div class="text-center" style="margin-bottom:1rem; font-weight:bold; font-size:1.2rem; color:var(--navy);">
+                Skor Anda: <span id="skorLatihan">0</span> / 60
+            </div>
+
+            <div class="latihan-box">
+                <!-- Tipe A: Benar/Salah -->
+                <div class="soal-container" id="soal1">
+                    <h3>A1. Benar atau Salah?</h3>
+                    <p>Grafik dari fungsi f(x) = (1/3)<sup>x</sup> adalah kurva yang monoton naik.</p>
+                    <div class="tf-btns">
+                        <button class="btn-outline tf-btn" onclick="jawabTF(1, false, this)">Benar</button>
+                        <button class="btn-outline tf-btn" onclick="jawabTF(1, true, this)">Salah</button>
+                    </div>
+                    <div class="feedback-msg" id="fb1"></div>
+                </div>
+
+                <div class="soal-container" id="soal2">
+                    <h3>A2. Benar atau Salah?</h3>
+                    <p>Grafik fungsi f(x) = 5<sup>x</sup> memotong sumbu Y di titik koordinat (0, 1).</p>
+                    <div class="tf-btns">
+                        <button class="btn-outline tf-btn" onclick="jawabTF(2, true, this)">Benar</button>
+                        <button class="btn-outline tf-btn" onclick="jawabTF(2, false, this)">Salah</button>
+                    </div>
+                    <div class="feedback-msg" id="fb2"></div>
+                </div>
+
+                <!-- Tipe B: Mencocokkan -->
+                <div class="soal-container">
+                    <h3>B. Mencocokkan</h3>
+                    <p>Klik kotak di sebelah kiri (Fungsi), lalu klik pasangan sifatnya di sebelah kanan!</p>
+                    <div class="match-container">
+                        <div class="match-col" id="colFungsi">
+                            <div class="match-item" data-id="f1" onclick="selectMatch(this, 'fungsi')">y = 4<sup>x</sup></div>
+                            <div class="match-item" data-id="f2" onclick="selectMatch(this, 'fungsi')">y = (1/4)<sup>x</sup></div>
+                        </div>
+                        <div class="match-col" id="colSifat">
+                            <div class="match-item" data-match="f2" onclick="selectMatch(this, 'sifat')">Kurva Monoton Turun</div>
+                            <div class="match-item" data-match="f1" onclick="selectMatch(this, 'sifat')">Kurva Monoton Naik</div>
+                        </div>
+                    </div>
+                    <div class="feedback-msg" id="fbMatch"></div>
+                </div>
+
+                <!-- Tipe C: Drag and Drop -->
+                <div class="soal-container">
+                    <h3>C. Tempatkan Label (Drag & Drop / Tap)</h3>
+                    <p>Tarik kotak kuning ke tempat yang tepat pada grafik, atau <b>ketuk</b> kotak kuning lalu <b>ketuk</b> kotak tujuan bergaris putus-putus.</p>
+                    
+                    <div class="dnd-container">
+                        <div class="draggable-items" id="dragItems">
+                            <div class="draggable" draggable="true" id="dragTitik" data-value="titik" onclick="selectDrag(this)" ondragstart="drag(event)">Titik (0,1)</div>
+                            <div class="draggable" draggable="true" id="dragAsimtot" data-value="asimtot" onclick="selectDrag(this)" ondragstart="drag(event)">Asimtot y=0</div>
+                        </div>
+                        <div class="dropzone-container">
+                            <svg viewBox="0 0 300 200" width="100%" height="100%">
+                                <line x1="150" y1="0" x2="150" y2="200" stroke="#aaa" />
+                                <line x1="0" y1="150" x2="300" y2="150" stroke="#aaa" stroke-width="2"/>
+                                <path d="M 0 145 Q 120 140, 150 100 T 250 10" fill="none" stroke="var(--pink-dark)" stroke-width="3" />
+                                <circle cx="150" cy="100" r="5" fill="var(--red)"/>
+                            </svg>
+                            <!-- Dropzones -->
+                            <div class="dropzone" id="dzTitik" data-answer="titik" style="top: 70px; left: 160px;" onclick="dropTap(this)" ondragover="allowDrop(event)" ondrop="drop(event, this)">Letakkan Titik...</div>
+                            <div class="dropzone" id="dzAsimtot" data-answer="asimtot" style="top: 160px; left: 20px;" onclick="dropTap(this)" ondragover="allowDrop(event)" ondrop="drop(event, this)">Letakkan Asimtot...</div>
+                        </div>
+                    </div>
+                    <div class="feedback-msg" id="fbDnD"></div>
+                </div>
+
+                <div class="text-center" style="margin-top: 2rem;">
+                    <button class="btn-outline" onclick="resetLatihan()">🔄 Ulangi Latihan</button>
+                </div>
+
+                <!-- Sertifikat Mini -->
+                <div class="certificate" id="certSelesai">
+                    <h2 style="color:var(--yellow); font-size:2.5rem; margin-bottom:1rem;">🎉 Luar Biasa! 🎉</h2>
+                    <p style="font-size:1.2rem;">Kamu telah menyelesaikan semua latihan dengan sempurna.</p>
+                    <p>Lencana "Ahli Eksponen" telah ditambahkan ke Berandamu!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. REFLEKSI -->
+        <section id="refleksi">
+            <h1 class="text-center">Refleksi Belajarmu Hari Ini</h1>
+            <div class="card" style="max-width: 600px; margin: 0 auto;">
+                <h3>Bagaimana perasaanmu setelah belajar grafik eksponensial?</h3>
+                <div class="emoji-group">
+                    <button class="emoji-btn" onclick="pilihEmoji(this)">😞<br><span style="font-size:1rem; color:#666;">Masih bingung</span></button>
+                    <button class="emoji-btn" onclick="pilihEmoji(this)">😐<br><span style="font-size:1rem; color:#666;">Cukup Paham</span></button>
+                    <button class="emoji-btn active" onclick="pilihEmoji(this)">🤩<br><span style="font-size:1rem; color:#666;">Sangat Paham!</span></button>
+                </div>
+
+                <h3>Checklist Pemahaman:</h3>
+                <div style="margin: 1rem 0; display:flex; flex-direction:column; gap:0.5rem;">
+                    <label><input type="checkbox" onchange="updateRefleksi()" id="chk1"> Saya tahu bentuk umum fungsi eksponensial.</label>
+                    <label><input type="checkbox" onchange="updateRefleksi()" id="chk2"> Saya bisa membedakan grafik naik dan turun.</label>
+                    <label><input type="checkbox" onchange="updateRefleksi()" id="chk3"> Saya mengerti apa itu asimtot datar.</label>
+                </div>
+
+                <h3>Apa yang paling menarik hari ini?</h3>
+                <textarea id="refleksiTeks" placeholder="Tuliskan pendapatmu di sini..."></textarea>
+                
+                <button class="btn-primary" style="width:100%; margin-top:1rem;" onclick="simpanRefleksi()">Simpan Refleksi</button>
+                <p id="msgRefleksi" style="color:var(--green); font-weight:bold; display:none; text-align:center; margin-top:1rem;">Refleksi berhasil disimpan! Terima kasih.</p>
+            </div>
+        </section>
+
+        <!-- 6. PENGEMBANG -->
+        <section id="pengembang">
+            <h1 class="text-center">Tentang Pengembang</h1>
+            <div class="card dev-profile" style="max-width: 500px; margin: 2rem auto;">
+                <div class="avatar">VA</div>
+                <h2 style="font-size: 2rem;">Viona Amelia</h2>
+                <p style="font-size: 1.2rem; color: var(--navy-light); font-weight: bold;">GURU MATEMATIKA SMAN 1 BANUHAMPU</p>
+                <p>MEDIA PEMBELAJARAN MATEMATIKA</p>
+                <hr style="margin: 1.5rem 0; border: 1px solid var(--gray-100);">
+                <p style="color: var(--gray-500); font-size: 0.9rem;">
+                    Aplikasi ini dirancang sebagai SPA (Single Page Application) interaktif untuk mempermudah siswa kelas XI memahami materi menggambar grafik fungsi eksponensial.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Viona Amelia - Media Pembelajaran Matematika Interaktif.</p>
+        <p style="font-size: 0.8rem; margin-top:0.5rem;">Dibuat dengan HTML, CSS, dan Vanilla JavaScript.</p>
+    </footer>
+
+    <!-- LOGIKA JAVASCRIPT -->
+    <script>
+        /* =========================================
+           1. INISIALISASI & STATE
+           ========================================= */
+        const STORAGE_KEY = 'EksponenApp_State_v1';
+        let state = {
+            progress: 0,
+            skorLatihan: 0,
+            jawabanBenar: { a1:false, a2:false, b1:false, b2:false, c1:false, c2:false },
+            materiDilihat: false,
+            contohDilihat: false,
+            refleksiSelesai: false
+        };
+
+        function loadState() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if(saved) {
+                state = JSON.parse(saved);
+                updateUIProgress();
+                document.getElementById('skorLatihan').innerText = state.skorLatihan;
+                cekSertifikat();
+            }
+        }
+
+        function saveState() {
+            kalkulasiProgress();
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            updateUIProgress();
+        }
+
+        /* =========================================
+           2. NAVIGASI (SPA) & RESPONSIVE
+           ========================================= */
+        function navigate(sectionId) {
+            playClickSound();
+            // Hide all sections
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.remove('active'));
+            // Remove active from nav links
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            
+            // Show target
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Highlight nav
+            const btn = Array.from(document.querySelectorAll('.nav-link')).find(el => el.getAttribute('onclick').includes(sectionId));
+            if(btn) btn.classList.add('active');
+
+            // Close mobile menu if open
+            document.getElementById('navLinks').classList.remove('show');
+
+            // Update state logic
+            if(sectionId === 'materi') state.materiDilihat = true;
+            if(sectionId === 'contoh') state.contohDilihat = true;
+            
+            saveState();
+            
+            // Trigger specific actions
+            if(sectionId === 'materi') initSimulasi();
+            window.scrollTo(0,0);
+        }
+
+        // Hamburger Menu
+        document.getElementById('btnHamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('show');
+            playClickSound();
+        });
+
+        // Full Screen Toggle
+        function toggleFullScreen() {
+            playClickSound();
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => console.log(err));
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        /* =========================================
+           3. AUDIO ENGINE (Web Audio API Synthesizer)
+           ========================================= */
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let bgmOscillator = null;
+        let bgmGain = null;
+        let isMuted = false;
+
+        function playTone(freq, type, duration, vol=0.1) {
+            if(isMuted || audioCtx.state === 'suspended') return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        function playClickSound() { playTone(800, 'sine', 0.05, 0.05); }
+        function playCorrectSound() { 
+            playTone(523.25, 'sine', 0.1, 0.1); // C5
+            setTimeout(() => playTone(659.25, 'sine', 0.2, 0.1), 100); // E5
+        }
+        function playWrongSound() { playTone(300, 'sawtooth', 0.3, 0.1); }
+        function playPopSound() { playTone(1200, 'sine', 0.05, 0.1); }
+
+        function toggleBGM() {
+            playClickSound();
+            const btn = document.getElementById('btnAudio');
+            isMuted = !isMuted;
+            if(isMuted) {
+                btn.innerHTML = '🔇';
+                btn.style.color = 'var(--red)';
+                if(bgmGain) bgmGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+            } else {
+                btn.innerHTML = '🔊';
+                btn.style.color = 'var(--white)';
+                if(audioCtx.state === 'suspended') audioCtx.resume();
+                startBGM(); // Restart logic if needed
+            }
+        }
+
+        function startBGM() {
+            if(isMuted || bgmOscillator) return;
+            // Simple drone sound to act as gentle BGM
+            bgmOscillator = audioCtx.createOscillator();
+            bgmGain = audioCtx.createGain();
+            bgmOscillator.type = 'triangle';
+            bgmOscillator.frequency.value = 220; // A3
+            bgmGain.gain.value = 0.02; // Very quiet
+            bgmOscillator.connect(bgmGain);
+            bgmGain.connect(audioCtx.destination);
+            bgmOscillator.start();
+        }
+
+        // Text-to-Speech untuk materi
+        function bacaMateri() {
+            playClickSound();
+            if ('speechSynthesis' in window) {
+                const text = "Fungsi eksponensial memiliki bentuk umum f(x) sama dengan k dikali a pangkat x. Syaratnya, nilai a harus lebih besar dari nol, dan a tidak boleh sama dengan satu.";
+                const msg = new SpeechSynthesisUtterance(text);
+                msg.lang = 'id-ID';
+                msg.rate = 0.9;
+                window.speechSynthesis.speak(msg);
+            } else {
+                alert("Browser Anda tidak mendukung fitur suara text-to-speech.");
+            }
+        }
+
+        // Resume AudioContext on first interaction
+        document.body.addEventListener('click', () => {
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+        }, {once:true});
+
+
+        /* =========================================
+           4. MATERI (Flashcard & Simulasi Canvas)
+           ========================================= */
+        // Flashcard Data
+        const flashcards = [
+            { f: "Sifat 1", b: "Grafik selalu berada di atas sumbu X (Definit Positif)." },
+            { f: "Sifat 2", b: "Memotong sumbu Y di titik (0, k)." },
+            { f: "Sifat 3", b: "Mempunyai asimtot datar yaitu sumbu X (garis y = 0)." },
+            { f: "Sifat 4", b: "Jika a > 1, maka grafiknya monoton naik. Jika 0 < a < 1, grafiknya monoton turun." }
+        ];
+        let fcIndex = 0;
+
+        function flipCard() {
+            playClickSound();
+            document.getElementById('materiFlashcard').classList.toggle('is-flipped');
+        }
+
+        function updateFlashcard() {
+            document.getElementById('materiFlashcard').classList.remove('is-flipped');
+            setTimeout(() => {
+                document.getElementById('fcFront').innerText = flashcards[fcIndex].f;
+                document.getElementById('fcBack').innerText = flashcards[fcIndex].b;
+                document.getElementById('fcCounter').innerText = (fcIndex + 1) + " / " + flashcards.length;
+            }, 150);
+        }
+
+        function nextCard() { playClickSound(); fcIndex = (fcIndex + 1) % flashcards.length; updateFlashcard(); }
+        function prevCard() { playClickSound(); fcIndex = (fcIndex - 1 + flashcards.length) % flashcards.length; updateFlashcard(); }
+
+        // Simulasi Grafik Eksponensial (Canvas)
+        function initSimulasi() {
+            const canvas = document.getElementById('graphCanvas');
+            // Responsive canvas
+            canvas.width = canvas.parentElement.clientWidth - 32; // padding
+            canvas.height = 300;
+            drawGraph();
+        }
+
+        function updateSimulasi() {
+            const val = document.getElementById('basisSlider').value;
+            document.getElementById('basisValue').innerText = val;
+            drawGraph();
+        }
+
+        function drawGraph() {
+            const canvas = document.getElementById('graphCanvas');
+            const ctx = canvas.getContext('2d');
+            const a = parseFloat(document.getElementById('basisSlider').value);
+            const w = canvas.width;
+            const h = canvas.height;
+            const originX = w / 2;
+            const originY = h - 50; // Lebih banyak ruang di atas karena y selalu positif
+            const scaleX = 40; // 40px per 1 unit x
+            const scaleY = 40; // 40px per 1 unit y
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Grid
+            ctx.strokeStyle = '#e5e7eb';
+            ctx.lineWidth = 1;
+            for(let i=0; i<w; i+=scaleX) { ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,h); ctx.stroke(); }
+            for(let i=0; i<h; i+=scaleY) { ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(w,i); ctx.stroke(); }
+
+            // Axes
+            ctx.strokeStyle = '#9ca3af';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.moveTo(originX, 0); ctx.lineTo(originX, h); ctx.stroke(); // Y
+            ctx.beginPath(); ctx.moveTo(0, originY); ctx.lineTo(w, originY); ctx.stroke(); // X
+
+            // Curve y = a^x
+            ctx.strokeStyle = 'var(--pink-dark)';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            let started = false;
+
+            for(let px = 0; px <= w; px++) {
+                let x = (px - originX) / scaleX;
+                let y = Math.pow(a, x);
+                let py = originY - (y * scaleY);
+
+                if(!started) { ctx.moveTo(px, py); started = true; } 
+                else { ctx.lineTo(px, py); }
+            }
+            ctx.stroke();
+
+            // Intersect point (0,1)
+            let py1 = originY - (1 * scaleY);
+            ctx.fillStyle = 'var(--red)';
+            ctx.beginPath(); ctx.arc(originX, py1, 5, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = 'var(--navy)';
+            ctx.font = '12px Arial';
+            ctx.fillText('(0,1)', originX + 8, py1 - 8);
+        }
+
+        // Handle resize window for canvas
+        window.addEventListener('resize', () => {
+            if(document.getElementById('materi').classList.contains('active')) initSimulasi();
+        });
+
+
+        /* =========================================
+           5. LATIHAN (T/F, Match, DragDrop)
+           ========================================= */
+        function tambahSkor(poin, key) {
+            if(!state.jawabanBenar[key]) {
+                state.skorLatihan += poin;
+                state.jawabanBenar[key] = true;
+                document.getElementById('skorLatihan').innerText = state.skorLatihan;
+                saveState();
+                cekSertifikat();
+            }
+        }
+
+        function tunjukkanPesan(elementId, isCorrect, pesan) {
+            const el = document.getElementById(elementId);
+            el.className = 'feedback-msg ' + (isCorrect ? 'correct' : 'wrong');
+            el.innerText = pesan;
+        }
+
+        // Tipe A: B/S
+        function jawabTF(soalNum, jawabanTebakan, btnEl) {
+            // Soal 1: y=(1/3)^x monoton naik? SALAH.
+            // Soal 2: y=5^x potong Y di (0,1)? BENAR.
+            const parent = btnEl.parentElement;
+            parent.querySelectorAll('button').forEach(b => b.disabled = true); // lock
+
+            let isCorrect = false;
+            if(soalNum === 1 && jawabanTebakan === false) isCorrect = true;
+            if(soalNum === 2 && jawabanTebakan === true) isCorrect = true;
+
+            if(isCorrect) {
+                playCorrectSound();
+                tambahkanSkorTipeA(soalNum);
+                btnEl.style.backgroundColor = 'var(--green)';
+                btnEl.style.color = 'white';
+                tunjukkanPesan('fb' + soalNum, true, "Benar! Hebat sekali.");
+            } else {
+                playWrongSound();
+                btnEl.style.backgroundColor = 'var(--red)';
+                btnEl.style.color = 'white';
+                tunjukkanPesan('fb' + soalNum, false, "Sayang sekali, jawaban kurang tepat.");
+                // unlock for retry? Specification asks for "Tombol ulangi latihan", so let's keep it locked until global reset.
+            }
+        }
+
+        function tambahkanSkorTipeA(num) { tambahSkor(10, 'a'+num); }
+
+        // Tipe B: Mencocokkan
+        let selFungsi = null;
+        let matchedCount = 0;
+
+        function selectMatch(el, type) {
+            if(el.classList.contains('matched')) return;
+            playClickSound();
+
+            if(type === 'fungsi') {
+                document.querySelectorAll('#colFungsi .match-item').forEach(e => e.classList.remove('selected'));
+                el.classList.add('selected');
+                selFungsi = el.getAttribute('data-id');
+            } else if(type === 'sifat' && selFungsi) {
+                const targetMatch = el.getAttribute('data-match');
+                if(selFungsi === targetMatch) {
+                    // Correct!
+                    playCorrectSound();
+                    el.classList.add('matched');
+                    document.querySelector(`[data-id="${selFungsi}"]`).classList.add('matched');
+                    document.querySelector(`[data-id="${selFungsi}"]`).classList.remove('selected');
+                    tambahSkor(10, 'b' + (matchedCount+1));
+                    matchedCount++;
+                    selFungsi = null;
+                    tunjukkanPesan('fbMatch', true, "Cocok!");
+                    setTimeout(()=>document.getElementById('fbMatch').style.display='none', 1500);
+                } else {
+                    playWrongSound();
+                    tunjukkanPesan('fbMatch', false, "Pasangan tidak cocok, coba lagi!");
+                    document.querySelector(`[data-id="${selFungsi}"]`).classList.remove('selected');
+                    selFungsi = null;
+                }
+            }
+        }
+
+        // Tipe C: Drag and Drop (Native + Tap Fallback for mobile)
+        let selectedDragItem = null;
+
+        // Native D&D handlers
+        function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+        function allowDrop(ev) { ev.preventDefault(); ev.currentTarget.classList.add('dragover'); }
+        function leaveDrop(ev) { ev.currentTarget.classList.remove('dragover'); }
+        function drop(ev, dropzone) {
+            ev.preventDefault();
+            dropzone.classList.remove('dragover');
+            const data = ev.dataTransfer.getData("text");
+            prosesDrop(document.getElementById(data), dropzone);
+        }
+
+        // Tap fallback for mobile
+        function selectDrag(el) {
+            playClickSound();
+            document.querySelectorAll('.draggable').forEach(e => e.classList.remove('dragging'));
+            el.classList.add('dragging');
+            selectedDragItem = el;
+        }
+        function dropTap(dropzone) {
+            if(!selectedDragItem) return;
+            prosesDrop(selectedDragItem, dropzone);
+        }
+
+        function prosesDrop(dragEl, dropzone) {
+            if(!dragEl || dropzone.classList.contains('filled')) return;
+            
+            const expected = dropzone.getAttribute('data-answer');
+            const droppedVal = dragEl.getAttribute('data-value');
+
+            if(expected === droppedVal) {
+                playPopSound();
+                setTimeout(()=>playCorrectSound(), 200);
+                
+                dropzone.appendChild(dragEl);
+                dropzone.classList.add('filled');
+                dragEl.style.margin = "0";
+                dragEl.style.width = "100%";
+                dragEl.style.height = "100%";
+                dragEl.style.display = "flex";
+                dragEl.style.alignItems = "center";
+                dragEl.style.justifyContent = "center";
+                dragEl.draggable = false;
+                dragEl.classList.remove('dragging');
+                selectedDragItem = null;
+                
+                tambahSkor(10, 'c' + (expected==='titik'?1:2));
+                tunjukkanPesan('fbDnD', true, "Tepat sasaran!");
+                setTimeout(()=>document.getElementById('fbDnD').style.display='none', 1500);
+            } else {
+                playWrongSound();
+                tunjukkanPesan('fbDnD', false, "Bukan di situ tempatnya, coba lagi!");
+                dragEl.classList.remove('dragging');
+                selectedDragItem = null;
+            }
+        }
+
+        function resetLatihan() {
+            playClickSound();
+            if(confirm("Anda yakin ingin mengulangi latihan? Skor akan di-reset.")) {
+                state.skorLatihan = 0;
+                state.jawabanBenar = { a1:false, a2:false, b1:false, b2:false, c1:false, c2:false };
+                saveState();
+                location.reload(); // Simplest way to reset DOM for SPA cleanly
+            }
+        }
+
+        function cekSertifikat() {
+            if(state.skorLatihan === 60) {
+                document.getElementById('certSelesai').classList.add('show');
+                document.getElementById('badgeEksponen').classList.add('unlocked');
+                document.getElementById('badgeText').innerText = "Lencana Ahli Eksponen (Terbuka!)";
+                document.getElementById('badgeText').style.color = "var(--green)";
+            }
+        }
+
+        /* =========================================
+           6. REFLEKSI & PROGRESS
+           ========================================= */
+        function pilihEmoji(btn) {
+            playClickSound();
+            document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function updateRefleksi() {
+            // Triggered when checkboxes change
+            saveState();
+        }
+
+        function simpanRefleksi() {
+            playCorrectSound();
+            state.refleksiSelesai = true;
+            saveState();
+            const msg = document.getElementById('msgRefleksi');
+            msg.style.display = 'block';
+            setTimeout(() => msg.style.display = 'none', 3000);
+            document.getElementById('refleksiTeks').value = ""; // clear
+        }
+
+        function kalkulasiProgress() {
+            let p = 0;
+            if(state.materiDilihat) p += 20;
+            if(state.contohDilihat) p += 20;
+            if(state.refleksiSelesai) p += 20;
+            // 6 latihan, masing-masing bobot skor = 6.66% (~40% total)
+            p += (state.skorLatihan / 60) * 40;
+            
+            state.progress = Math.min(Math.round(p), 100);
+        }
+
+        function updateUIProgress() {
+            const w = state.progress + '%';
+            document.getElementById('topProgressBar').style.width = w;
+            document.getElementById('dashboardProgress').style.width = w;
+            document.getElementById('progressText').innerText = state.progress + '% Selesai';
+        }
+
+        /* INIT */
+        window.onload = () => {
+            loadState();
+            updateFlashcard();
+            // Start silent audio context trick to allow autoplay sounds later
+            const unlockAudio = () => {
+                if(audioCtx.state === 'suspended') audioCtx.resume();
+                document.removeEventListener('click', unlockAudio);
+                document.removeEventListener('touchstart', unlockAudio);
+            };
+            document.addEventListener('click', unlockAudio);
+            document.addEventListener('touchstart', unlockAudio);
+        };
+
+    </script>
+</body>
+</html>
